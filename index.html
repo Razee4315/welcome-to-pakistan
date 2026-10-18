@@ -10,153 +10,204 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Mukta:wght@400;500;700&family=Noto+Nastaliq+Urdu:wght@500&family=Rozha+One&display=swap">
 <style>
-/* Layout: a road trip down the page. A painted-truck hero, a five-stop route, then one stop per region:
-   the diorama on the left, a field card on the right that changes when you tap a landmark. */
+/* Layout: a night drive down the country. An emerald, starlit hero with the painted truck, then one full-bleed
+   colour band per region (glacier, aubergine, mustard, ajrak, desert dusk): the living diorama left, a small
+   painted card right. One committed look, the same for every viewer. */
 :root{
-  --paper:#efe8d8; --paper-2:#f8f3e7; --ink:#1f1a14; --muted:#6c624f; --rule:#d5c9ae;
-  --green:#0d5c36; --gold:#c98d0c;
-  --gb:#2f6fa8; --kp:#2c7a46; --pb:#a46f00; --sd:#a3262f; --bl:#b2541f;
+  color-scheme:light;
+  --night:#0b4630; --night-2:#0f5a3e; --cream:#fbf1d6; --paper:#fdf6e6; --ink:#1f1a14; --gold:#f4c430; --red:#d7363f; --indigo:#22306e;
   --display:'Rozha One','Iowan Old Style',Georgia,serif;
   --body:'Mukta','Segoe UI',system-ui,sans-serif;
   --mono:'IBM Plex Mono',ui-monospace,Menlo,Consolas,monospace;
   --urdu:'Noto Nastaliq Urdu','Jameel Noori Nastaleeq','Urdu Typesetting',serif;
 }
-@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
-  --paper:#16140f; --paper-2:#211e17; --ink:#efe6d2; --muted:#a99d85; --rule:#3c3529;
-  --green:#5cc28a; --gold:#f0bd45;
-  --gb:#86b8e6; --kp:#72c48d; --pb:#e8b544; --sd:#f08088; --bl:#f09c68; color-scheme:dark } }
-:root[data-theme="dark"]{
-  --paper:#16140f; --paper-2:#211e17; --ink:#efe6d2; --muted:#a99d85; --rule:#3c3529;
-  --green:#5cc28a; --gold:#f0bd45;
-  --gb:#86b8e6; --kp:#72c48d; --pb:#e8b544; --sd:#f08088; --bl:#f09c68; color-scheme:dark }
-
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
-@media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto} }
-body{margin:0;background-color:var(--paper);color:var(--ink);font:400 1.06rem/1.6 var(--body);
-  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='320' height='320'><filter id='p'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .42  0 0 0 0 .39  0 0 0 0 .33  .14 0 0 0 0'/></filter><rect width='100%' height='100%' filter='url(%23p)'/></svg>");
-  overflow-x:hidden}
-.wrap{max-width:1180px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+body{margin:0;background:var(--night);color:var(--cream);font:400 1.06rem/1.55 var(--body);overflow-x:hidden}
+.wrap{max-width:1200px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
 a{color:inherit}
-:focus-visible{outline:2px solid var(--ink);outline-offset:3px;border-radius:4px}
+:focus-visible{outline:3px solid var(--gold);outline-offset:3px;border-radius:6px}
+h1,h2,h3{font-family:var(--display);font-weight:400;margin:0;line-height:.95;text-wrap:balance}
+.eyebrow{font:600 .74rem/1.3 var(--mono);letter-spacing:.16em;text-transform:uppercase;margin:0;opacity:.85}
+.urdu{font-family:var(--urdu);direction:rtl;text-align:left;line-height:2.1;margin:0}
 
-/* ---------- type ---------- */
-.eyebrow{font:600 .74rem/1.3 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:0}
-h1,h2,h3{font-family:var(--display);font-weight:400;text-wrap:balance;margin:0;line-height:1}
-h1{font-size:clamp(3rem,8.4vw,6.4rem);letter-spacing:-.01em}
-h2{font-size:clamp(2.4rem,5.6vw,4.2rem)}
-h3{font-size:clamp(1.7rem,3vw,2.2rem);line-height:1.08}
-.urdu{font-family:var(--urdu);direction:rtl;line-height:2.2}
-
-/* ---------- hero ---------- */
-.hero{padding-block:40px 8px}
-.hero-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:24px;align-items:center}
-.hero-text{display:flex;flex-direction:column;gap:14px;min-width:0}
-.hero h1 .accent{color:var(--green)}
-.hero .urdu{font-size:clamp(1.5rem,3vw,2.1rem);color:var(--green);margin:-4px 0 0;text-align:left}
-.lead{font-size:1.18rem;max-width:34em;margin:0}
-.hero-art{min-width:0;display:flex;flex-direction:column;gap:2px}
+/* ---------- hero: emerald night ---------- */
+.hero{position:relative;overflow:hidden;padding-block:36px 26px;
+  background:radial-gradient(120% 90% at 78% 30%,#14704c 0%,var(--night) 55%,#06301f 100%)}
+.sky{position:absolute;inset:0;pointer-events:none}
+.sky i{position:absolute;width:3px;height:3px;border-radius:50%;background:#fff;box-shadow:0 0 6px #fff;animation:tw 3s ease-in-out infinite}
+@keyframes tw{0%,100%{opacity:.15;transform:scale(.6)}50%{opacity:1;transform:scale(1.2)}}
+.moon{position:absolute;right:max(16px,4vw);top:20px;width:clamp(90px,14vw,170px);opacity:.16;animation:float 9s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translateY(0) rotate(-8deg)}50%{transform:translateY(10px) rotate(-4deg)}}
+.hero-grid{position:relative;display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.25fr);gap:20px;align-items:center}
+.hero-text{display:flex;flex-direction:column;gap:12px;min-width:0}
+.hero .eyebrow{color:var(--gold)}
+h1{font-size:clamp(3rem,6.4vw,5.6rem);color:var(--cream)}
+h1 .pk{display:block;color:var(--gold);text-shadow:5px 5px 0 var(--red)}
+.hero .urdu{font-size:clamp(1.6rem,3.2vw,2.3rem);color:#9fe3bf}
+.lead{font-size:1.2rem;margin:0;max-width:26em;color:#e3efe6}
+.hero-art{min-width:0;position:relative}
 .hero-art svg{width:100%;height:auto;display:block;overflow:visible;cursor:pointer}
-.hint{font:400 .78rem/1.4 var(--mono);color:var(--muted);letter-spacing:.06em;text-align:right;margin:0}
+.honk{position:absolute;right:4%;bottom:6%;font:600 .72rem/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--ink);
+  background:var(--gold);border:2px solid var(--ink);border-radius:999px;padding:7px 12px;box-shadow:3px 3px 0 var(--ink);animation:nudge 2.4s ease-in-out infinite}
+@keyframes nudge{0%,100%{transform:rotate(-3deg)}50%{transform:rotate(3deg) translateY(-3px)}}
 
 /* ---------- route ---------- */
-.route{padding-block:28px 12px}
+.route{position:relative;padding-block:22px 6px}
 .route ol{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));position:relative}
-.route ol::before{content:"";position:absolute;left:10%;right:10%;top:15px;border-top:3px dashed var(--ink);opacity:.55}
-.route li{display:flex}
-.route a{display:flex;flex-direction:column;align-items:center;text-align:center;gap:6px;text-decoration:none;padding:0 6px 6px;width:100%;border-radius:10px}
-.route .pin{width:32px;height:32px;border-radius:50%;background:var(--paper-2);border:2.5px solid var(--ink);display:grid;place-items:center;font:600 .82rem var(--mono);position:relative;z-index:1;transition:transform .2s}
-.route a:hover .pin{transform:translateY(-3px);background:var(--c)}
-.route .rname{font:400 1.25rem/1.1 var(--display)}
-.route .rtext{display:flex;flex-direction:column;gap:2px}
-.route .rsub{font:400 .78rem/1.35 var(--mono);color:var(--muted)}
+.route ol::before{content:"";position:absolute;left:10%;right:10%;top:20px;border-top:4px dashed rgba(251,241,214,.45)}
+.route a{display:flex;flex-direction:column;align-items:center;gap:8px;text-decoration:none;text-align:center}
+.route .pin{width:42px;height:42px;border-radius:50%;background:var(--c);border:3px solid var(--cream);display:grid;place-items:center;
+  font:400 1.2rem var(--display);color:#fff;position:relative;z-index:1;box-shadow:0 0 0 4px var(--night);transition:transform .25s cubic-bezier(.3,1.6,.5,1)}
+.route a:hover .pin{transform:translateY(-6px) scale(1.12)}
+.route .rname{font:400 1.15rem/1.1 var(--display)}
 
-/* ---------- truck-art scallop divider ---------- */
-.scallop{height:16px;margin-block:30px;background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='96' height='16'><path d='M0 16a12 12 0 0 1 24 0Z' fill='%23d7363f'/><path d='M24 16a12 12 0 0 1 24 0Z' fill='%231f8a4c'/><path d='M48 16a12 12 0 0 1 24 0Z' fill='%232f62c9'/><path d='M72 16a12 12 0 0 1 24 0Z' fill='%23f4c430'/><circle cx='12' cy='3' r='2' fill='%23f4c430'/><circle cx='36' cy='3' r='2' fill='%23d7363f'/><circle cx='60' cy='3' r='2' fill='%23f4c430'/><circle cx='84' cy='3' r='2' fill='%231f8a4c'/></svg>") repeat-x left bottom/96px 16px}
+/* ---------- region bands ---------- */
+.stop{position:relative;overflow:hidden;background:var(--band);color:var(--bink);padding-block:0 56px;scroll-margin-top:env(safe-area-inset-top,0px)}
+.stop::after{content:"";position:absolute;inset:0;pointer-events:none;background:var(--pattern,none);opacity:var(--pat-o,1)}
+.stop > .wrap{position:relative;z-index:1}
+.scallop{height:18px;background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='96' height='18'><path d='M0 0a12 12 0 0 0 24 0Z' fill='%23d7363f'/><path d='M24 0a12 12 0 0 0 24 0Z' fill='%231f8a4c'/><path d='M48 0a12 12 0 0 0 24 0Z' fill='%232f62c9'/><path d='M72 0a12 12 0 0 0 24 0Z' fill='%23f4c430'/><circle cx='12' cy='15.5' r='2' fill='%23fbf1d6'/><circle cx='36' cy='15.5' r='2' fill='%23fbf1d6'/><circle cx='60' cy='15.5' r='2' fill='%23fbf1d6'/><circle cx='84' cy='15.5' r='2' fill='%23fbf1d6'/></svg>") repeat-x left top/96px 18px;position:relative;z-index:1}
+.stop-head{display:flex;align-items:flex-end;gap:14px 22px;flex-wrap:wrap;padding-top:34px}
+.stop-num{font:400 clamp(4rem,10vw,7.5rem)/.8 var(--display);color:transparent;-webkit-text-stroke:2px var(--bink);opacity:.5}
+.stop-head h2{font-size:clamp(2.6rem,7vw,5.4rem);text-shadow:4px 4px 0 var(--pop)}
+.stop-head .eyebrow{flex-basis:100%;order:-1}
+.stop-grid{display:grid;grid-template-columns:minmax(0,1.65fr) minmax(0,1fr);gap:20px 32px;align-items:center;margin-top:8px}
 
-/* ---------- stops ---------- */
-.stop{padding-block:8px 8px;scroll-margin-top:calc(env(safe-area-inset-top,0px) + 12px)}
-.stop-head{display:flex;flex-direction:column;gap:8px;margin-bottom:6px}
-.stop-head .eyebrow{color:var(--ra)}
-.stop-head .tagline{font-size:1.2rem;color:var(--muted);margin:0;max-width:40em}
-.stop-grid{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:28px;align-items:start}
+.gb{--band:#1f5d8e;--bink:#eef7fc;--pop:#0e3556;--acc:#1f5d8e;
+  --pattern:radial-gradient(2px 2px at 20px 30px,#fff 50%,transparent 51%),radial-gradient(1.5px 1.5px at 80px 120px,#fff 50%,transparent 51%),radial-gradient(2.5px 2.5px at 150px 60px,#fff 50%,transparent 51%),radial-gradient(1.5px 1.5px at 210px 170px,#fff 50%,transparent 51%);
+  --pat-o:.55}
+.gb::after{background-size:240px 220px;animation:snow 14s linear infinite}
+@keyframes snow{from{background-position:0 0,0 0,0 0,0 0}to{background-position:-40px 220px,30px 220px,-20px 220px,10px 220px}}
+.kp{--band:#4a2244;--bink:#fbeaf4;--pop:#1f8a4c;--acc:#7a2f6c;
+  --pattern:repeating-linear-gradient(45deg,transparent 0 22px,rgba(255,255,255,.04) 22px 24px),repeating-linear-gradient(-45deg,transparent 0 22px,rgba(255,255,255,.04) 22px 24px)}
+.pb{--band:#f0b21a;--bink:#2a1704;--pop:#fff3c4;--acc:#a0520a}
+.pb .stop-head h2{text-shadow:4px 4px 0 #d7363f;color:#2a1704}
+.sd{--band:#8d1a2b;--bink:#fff0ea;--pop:#22306e;--acc:#8d1a2b;
+  --pattern:radial-gradient(circle at 14px 14px,#22306e 3px,transparent 3.5px),radial-gradient(circle at 14px 14px,transparent 6px,rgba(251,241,214,.18) 6.5px,rgba(251,241,214,.18) 7.5px,transparent 8px);
+  --pat-o:.7}
+.sd::after{background-size:28px 28px}
+.bl{--band:linear-gradient(180deg,#2b1d52 0%,#7a2f5e 48%,#d9623b 100%);--bink:#fff2e4;--pop:#d9623b;--acc:#b5452a}
+.sun{position:absolute;right:8%;bottom:16%;width:min(34vw,380px);aspect-ratio:1;border-radius:50%;background:radial-gradient(circle,#ffd27a 0%,#f59a43 55%,rgba(245,154,67,0) 70%);opacity:.55;animation:float 12s ease-in-out infinite}
+.kite-bg{position:absolute;width:42px;aspect-ratio:1;transform:rotate(45deg);border:2px solid var(--ink);background:linear-gradient(135deg,#d7363f 0 50%,#2f62c9 50%);animation:kitefly 6s ease-in-out infinite}
+.kite-bg::after{content:"";position:absolute;left:100%;top:100%;width:70px;height:2px;background:var(--ink);transform-origin:0 0;transform:rotate(30deg)}
+@keyframes kitefly{0%,100%{translate:0 0;rotate:40deg}50%{translate:14px -16px;rotate:52deg}}
+
+/* ---------- the diorama ---------- */
 .scene{width:100%;height:auto;display:block;overflow:visible;min-width:0}
 .scene [data-act]{cursor:pointer}
 .scene .asset{transition:transform .25s ease}
-.scene .asset:hover{transform:translateY(-1.4px)}
+.scene .asset:hover{transform:translateY(-1.6px)}
 .scene g[data-act]:hover .tag rect{fill:#f4c430}
+.scene.play:not(.played) .asset{animation:drop .9s cubic-bezier(.25,1.5,.45,1) both;animation-delay:var(--d,0ms)}
+@keyframes drop{from{transform:translateY(-34px);opacity:0}to{transform:none;opacity:1}}
+.scene.played .asset.sel{animation:pop .55s cubic-bezier(.3,1.8,.5,1)}
+@keyframes pop{0%{transform:none}35%{transform:translateY(-5px) scale(1.01)}100%{transform:none}}
+/* little lives inside the dioramas (units are SVG user units) */
+.drift{animation:drift 10s ease-in-out infinite alternate}
+@keyframes drift{from{transform:translateX(-9px)}to{transform:translateX(11px)}}
+.twinkle{transform-box:fill-box;transform-origin:center;animation:twk 2.6s ease-in-out infinite}
+@keyframes twk{0%,100%{opacity:.1;transform:scale(.5)}50%{opacity:1;transform:scale(1.1)}}
+.glint{animation:glint 2.2s ease-in-out infinite}
+@keyframes glint{0%,100%{opacity:.75}50%{opacity:1;filter:brightness(1.4)}}
+.bob{animation:bob 2.8s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-1.3px)}}
+.petal{transform-box:fill-box;transform-origin:center;animation:petal 5s linear infinite}
+@keyframes petal{0%{transform:translate(0,0) rotate(0);opacity:0}12%{opacity:1}100%{transform:translate(-9px,24px) rotate(220deg);opacity:0}}
+.wave{transform-box:fill-box;transform-origin:0 50%;animation:flag 1.3s ease-in-out infinite}
+@keyframes flag{0%,100%{transform:skewY(0) scaleX(1)}50%{transform:skewY(-9deg) scaleX(.92)}}
+.sway{transform-box:fill-box;transform-origin:50% 100%;animation:sway 3.6s ease-in-out infinite}
+@keyframes sway{0%,100%{transform:rotate(-2deg)}50%{transform:rotate(2deg)}}
+.palm{transform-box:fill-box;transform-origin:50% 40%;animation:sway 4.2s ease-in-out infinite}
+.flow{animation:flow 2.6s linear infinite}
+@keyframes flow{to{stroke-dashoffset:-36}}
+.steam{animation:steam 3.2s ease-out infinite}
+@keyframes steam{0%{transform:translateY(2px);opacity:0}25%{opacity:.9}100%{transform:translateY(-16px);opacity:0}}
+.kite{transform-box:fill-box;transform-origin:50% 100%;animation:kite 3.4s ease-in-out infinite}
+@keyframes kite{0%,100%{transform:rotate(-6deg)}50%{transform:rotate(6deg) translateY(-2px)}}
+.leap{transform-box:fill-box;transform-origin:50% 100%;animation:leap 3.8s cubic-bezier(.4,0,.3,1) infinite}
+@keyframes leap{0%{transform:translateY(9px) scale(.6);opacity:0}18%{opacity:1}50%{transform:translateY(-3px) scale(1)}82%{opacity:1}100%{transform:translateY(9px) scale(.6);opacity:0}}
+.ripple{transform-box:fill-box;transform-origin:center;animation:ripple 3.8s ease-out infinite}
+@keyframes ripple{0%{transform:scale(.3);opacity:0}25%{opacity:1}100%{transform:scale(1.5);opacity:0}}
+.smoke{transform-box:fill-box;transform-origin:center;animation:smoke 3.6s ease-out infinite}
+@keyframes smoke{0%{transform:translate(0,0) scale(.5);opacity:0}20%{opacity:.75}100%{transform:translate(-10px,-28px) scale(1.7);opacity:0}}
+.lap{animation:lap 3s ease-in-out infinite}
+@keyframes lap{0%,100%{transform:translate(0,0)}50%{transform:translate(-2.5px,1.2px)}}
 .flame{transform-box:fill-box;transform-origin:50% 100%;animation:flick .5s ease-in-out infinite alternate}
 .flame.f2{animation-duration:.37s} .flame.f3{animation-duration:.61s}
-@keyframes flick{from{transform:scale(1,1)}to{transform:scale(.88,1.12)}}
-@media (prefers-reduced-motion: reduce){ .flame{animation:none} .scene .asset{transition:none} }
+@keyframes flick{from{transform:scale(1,1)}to{transform:scale(.86,1.16)}}
+.scene:not(.live) *, .scene:not(.live){animation-play-state:paused!important}
 
-.card{position:sticky;top:calc(env(safe-area-inset-top,0px) + 16px);background:var(--paper-2);border:1.5px solid var(--ink);border-radius:14px;
-  box-shadow:5px 5px 0 var(--ink);padding:22px 22px 20px;display:flex;flex-direction:column;gap:12px;min-width:0}
-.card .kicker{font:600 .74rem/1.4 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--ra);margin:0}
-.card p{margin:0}
-.card .body{max-width:36em}
-.facts{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;margin:2px 0 0;padding-top:12px;border-top:1px solid var(--rule)}
-.facts dt{font:600 .72rem/1.6 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
-.facts dd{margin:0;font-weight:500}
-.explore{display:flex;flex-direction:column;gap:8px;padding-top:12px;border-top:1px solid var(--rule)}
-.explore .eyebrow{font-size:.68rem}
-.chips{display:flex;flex-wrap:wrap;gap:8px}
-.chip{font:600 .86rem/1 var(--body);color:var(--ink);background:var(--paper);border:1.5px solid var(--ink);border-radius:999px;padding:8px 13px 7px;cursor:pointer;
-  box-shadow:2px 2px 0 var(--ink);transition:transform .15s,box-shadow .15s}
-.chip:hover{transform:translate(-1px,-1px);box-shadow:3px 3px 0 var(--ink)}
-.chip[aria-pressed="true"]{background:var(--ra);color:var(--paper);border-color:var(--ink)}
-.back{align-self:flex-start;font:600 .8rem/1 var(--mono);letter-spacing:.06em;color:var(--muted);background:none;border:0;padding:4px 0;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
-.back:hover{color:var(--ink)}
+/* ---------- the card ---------- */
+.card{background:var(--paper);color:var(--ink);border:2.5px solid var(--ink);border-radius:20px;box-shadow:9px 9px 0 var(--pop);
+  padding:22px 22px 20px;display:flex;flex-direction:column;gap:12px;min-width:0;position:relative}
+.card::before{content:"";position:absolute;top:-14px;left:22px;width:28px;height:28px;border-radius:50%;background:var(--gold);border:2.5px solid var(--ink);
+  box-shadow:inset 0 0 0 5px #d7363f}
+.card .in{display:flex;flex-direction:column;gap:10px}
+.card .in.swap{animation:swap .45s cubic-bezier(.2,1.2,.4,1)}
+@keyframes swap{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.card .kicker{font:600 .72rem/1.4 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--acc);margin:0}
+.card h3{font-size:clamp(1.8rem,3.2vw,2.4rem)}
+.stat{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.stat b{font:400 clamp(2.2rem,4.4vw,3.2rem)/1 var(--display);color:var(--acc)}
+.stat span{font:600 .76rem/1.3 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:#6c624f}
+.card .line{margin:0;font-size:1.08rem}
+.chips{display:flex;flex-wrap:wrap;gap:8px;padding-top:12px;border-top:2px dotted #d5c9ae}
+.chip{font:600 .86rem/1 var(--body);color:var(--ink);background:#fff;border:2px solid var(--ink);border-radius:999px;padding:8px 13px 7px;cursor:pointer;
+  box-shadow:2px 2px 0 var(--ink);transition:transform .15s,box-shadow .15s,background .15s}
+.chip:hover{transform:translate(-1px,-2px);box-shadow:3px 4px 0 var(--ink);background:#fff3c4}
+.chip[aria-pressed="true"]{background:var(--acc);color:#fff}
 
 /* ---------- footer ---------- */
-footer{padding-block:20px 48px;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:8px 24px}
-footer .big{font:400 clamp(1.8rem,4vw,2.6rem)/1 var(--display);color:var(--green)}
-footer .urdu{font-size:1.4rem;color:var(--green);text-align:left;margin:0}
-footer .big{margin:0}
-footer small{font:400 .78rem/1.5 var(--mono);color:var(--muted);letter-spacing:.04em}
+footer{background:var(--night);padding-block:8px 46px}
+footer .scallop{margin-bottom:34px}
+.foot{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 24px}
+footer .big{font:400 clamp(2.4rem,6vw,4.4rem)/1 var(--display);color:var(--gold);text-shadow:4px 4px 0 var(--red);margin:0}
+footer .urdu{font-size:clamp(1.6rem,3vw,2.2rem);color:#9fe3bf}
 
-@media (max-width:820px){
+@media (max-width:860px){
   .hero-grid,.stop-grid{grid-template-columns:minmax(0,1fr)}
-  .card{position:static}
-  .hint{text-align:left}
-  .route ol{grid-template-columns:minmax(0,1fr);gap:10px}
-  .route ol::before{left:15px;right:auto;top:16px;bottom:16px;border-top:0;border-left:3px dashed var(--ink)}
-  .route a{flex-direction:row;text-align:left;gap:12px;padding:0}
-  .route .rtext{display:flex;flex-direction:column}
+  .route ol{grid-template-columns:repeat(5,minmax(0,1fr))}
+  .route .rname{font-size:.78rem;font-family:var(--body);font-weight:700}
+  .route .pin{width:34px;height:34px;font-size:1rem}
+  .route ol::before{top:16px}
+  .honk{bottom:2%}
+}
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation:none!important;transition:none!important}
 }
 </style>
 </head>
 <body>
 
 <header class="hero">
+  <div class="sky" id="sky" aria-hidden="true">
+    <svg class="moon" viewBox="0 0 100 100"><path d="M62 8a44 44 0 1 0 30 70A36 36 0 1 1 62 8Z" fill="#fbf1d6"/><path d="M80 22l3.5 10.8h11.3l-9.2 6.7 3.5 10.8-9.1-6.7-9.2 6.7 3.5-10.8-9.1-6.7h11.3Z" fill="#fbf1d6"/></svg>
+  </div>
   <div class="wrap hero-grid">
     <div class="hero-text">
-      <p class="eyebrow">A journey north to south · five stops</p>
-      <h1>Welcome to <span class="accent">Pakistan</span></h1>
+      <p class="eyebrow">North to south · 5 stops</p>
+      <h1>Welcome to <span class="pk">Pakistan</span></h1>
       <p class="urdu" lang="ur">خوش آمدید</p>
-      <p class="lead">Climb aboard a painted truck and ride from the glaciers of the Karakoram to the Arabian Sea. Every stop is a small hand-drawn diorama. Tap any label to find out what you are looking at.</p>
+      <p class="lead">Ride a painted truck from the Karakoram to the Arabian Sea. Tap anything.</p>
     </div>
     <div class="hero-art">
-      <svg id="truck" class="scene" role="img" aria-label="A Pakistani truck painted in the phool patti style, with a decorated crown, the national flag and hanging chains, driving along a road"></svg>
-      <p class="hint" id="truck-hint">Tap the truck to honk</p>
+      <svg id="truck" class="scene live" role="img" aria-label="A Pakistani truck painted in the phool patti style, driving along a road"></svg>
+      <button type="button" class="honk" id="honk">Tap to honk</button>
     </div>
   </div>
+  <nav class="route wrap" aria-label="The five stops"><ol id="route"></ol></nav>
 </header>
-
-<nav class="route wrap" aria-label="The five stops">
-  <ol id="route"></ol>
-</nav>
 
 <main id="stops"></main>
 
-<footer class="wrap">
-  <div>
+<footer>
+  <div class="scallop" aria-hidden="true"></div>
+  <div class="wrap foot">
     <p class="big">Pakistan Zindabad</p>
     <p class="urdu" lang="ur">پاکستان زندہ باد</p>
   </div>
-  <small>Five regions, twenty landmarks. Every picture on this page is drawn in code.</small>
 </footer>
-
 <script src="engine.js"></script>
 <script>
 /* =====================================================================
@@ -231,17 +282,39 @@ function frameAndDraw(svg, uid, size, draw){
   const pts = []; for (const x of [0,W]) for (const y of [0,D]) for (const z of [0,H]) pts.push(P(x,y,z));
   const xs = pts.map(p => p[0]), ys = pts.map(p => p[1]);
   const minX = Math.min(...xs), minY = Math.min(...ys), bw = Math.max(...xs) - minX, bh = Math.max(...ys) - minY;
-  const padX = bw*.05, padT = bh*.1, padB = bh*.05, vbW = bw + 2*padX, vbH = bh + padT + padB;
+  const padX = bw*.05, padT = bh*.1, padB = bh*.06, vbW = bw + 2*padX, vbH = bh + padT + padB;
   OX = padX - minX; OY = padT - minY;
   INK_K = vbW / 470;
-  svg.setAttribute('viewBox', `0 0 ${f(vbW)} ${f(vbH)}`);
+  const out = draw(), art = typeof out === 'string' ? out : out.art, over = typeof out === 'string' ? '' : (out.over || '');
   const flt = filterFor(INK_K).replace('id="hand"', `id="hand-${uid}"`).replace('id="wob"', `id="wob-${uid}"`);
-  svg.innerHTML = `<defs>${flt}</defs><g filter="url(#hand-${uid})">${inkScale(draw())}</g>`;
+  svg.setAttribute('viewBox', `0 0 ${f(vbW)} ${f(vbH)}`);
+  svg.innerHTML = `<defs>${flt}</defs><g filter="url(#hand-${uid})">${inkScale(art)}</g>${inkScale(over)}`;
   // trim the empty air above the drawing (measured once per scene so animation doesn't jump)
   if (cropTop[uid] == null){ try { cropTop[uid] = Math.max(0, svg.querySelector('g').getBBox().y - bh*.03); } catch (e) { cropTop[uid] = 0; } }
   svg.setAttribute('viewBox', `0 ${f(cropTop[uid])} ${f(vbW)} ${f(vbH - cropTop[uid])}`);
 }
 const cropTop = {};
+// screen-space helpers for the animated overlays (drawn on top, without the hand-drawn wobble)
+const MOTION = !matchMedia('(prefers-reduced-motion: reduce)').matches;
+function cloud(c, s, delay=0){ const [X,Y] = P(...c), puffs = [[0,0,5],[5.5,1.2,4],[-5.5,1.4,3.8],[2.4,-2.8,3.8],[-2.6,-2,3.2]];
+  const ring = puffs.map(([dx,dy,r]) => `<circle cx="${f(X+dx*s)}" cy="${f(Y+dy*s)}" r="${f(r*s + .7)}" fill="${INK}"/>`).join('');
+  const body = puffs.map(([dx,dy,r]) => `<circle cx="${f(X+dx*s)}" cy="${f(Y+dy*s)}" r="${f(r*s)}" fill="#ffffff"/>`).join('');
+  return `<g class="drift" style="animation-delay:${delay}s" opacity=".95">${ring}${body}<ellipse cx="${f(X - 1.4*s)}" cy="${f(Y + 2.4*s)}" rx="${f(6*s)}" ry="${f(1.4*s)}" fill="#dfeaf2"/></g>`; }
+function sparkle(c, r, delay){ const [X,Y] = P(...c);
+  return `<path class="twinkle" style="animation-delay:${delay}s" d="M${f(X)} ${f(Y-r)}Q${f(X)} ${f(Y)} ${f(X+r)} ${f(Y)}Q${f(X)} ${f(Y)} ${f(X)} ${f(Y+r)}Q${f(X)} ${f(Y)} ${f(X-r)} ${f(Y)}Q${f(X)} ${f(Y)} ${f(X)} ${f(Y-r)}Z" fill="#ffffff" stroke="${INK}" stroke-width=".4"/>`; }
+function bird(c, rx, ry, dur, begin){ if (!MOTION) return ''; const [X,Y] = P(...c);
+  return `<g><path d="M-2.6 0Q-1.3 -1.8 0 0Q1.3 -1.8 2.6 0" fill="none" stroke="${INK}" stroke-width="1.1" stroke-linecap="round"><animateTransform attributeName="transform" type="scale" values="1 1;1 .3;1 1" dur=".55s" repeatCount="indefinite"/></path>`
+    + `<animateMotion dur="${dur}s" begin="${begin}s" repeatCount="indefinite" path="M${f(X - rx)} ${f(Y)}a${f(rx)} ${f(ry)} 0 1 0 ${f(2*rx)} 0a${f(rx)} ${f(ry)} 0 1 0 ${f(-2*rx)} 0"/></g>`; }
+function pkFlag(c, h=9){ const [X,Y] = P(...c), w = h*.95, fh = h*.62, top = Y - h;
+  return `<path d="M${f(X)} ${f(Y)}L${f(X)} ${f(top)}" stroke="${INK}" stroke-width="1" fill="none"/>`
+    + `<g class="wave"><rect x="${f(X)}" y="${f(top)}" width="${f(w)}" height="${f(fh)}" fill="#1d6b3c" stroke="${INK}" stroke-width=".6"/><rect x="${f(X)}" y="${f(top)}" width="${f(w*.25)}" height="${f(fh)}" fill="#ffffff"/>`
+    + `<circle cx="${f(X + w*.6)}" cy="${f(top + fh*.5)}" r="${f(fh*.28)}" fill="#ffffff"/><circle cx="${f(X + w*.66)}" cy="${f(top + fh*.45)}" r="${f(fh*.24)}" fill="#1d6b3c"/></g>`; }
+function steamAt(c, n=3){ const [X,Y] = P(...c); let s = '';
+  for (let k = 0; k < n; k++){ const x = X + (k - (n-1)/2)*2.2; s += `<path class="steam" style="animation-delay:${-k*1.05}s" d="M${f(x)} ${f(Y)}q-1.6 -3 0 -6q1.6 -3 0 -6" fill="none" stroke="#ffffff" stroke-width="1.3" stroke-linecap="round" opacity=".9"/>`; }
+  return s; }
+function smokeAt(c, n=4, col='#d9d3c8'){ const [X,Y] = P(...c); let s = '';
+  for (let k = 0; k < n; k++) s += `<circle class="smoke" style="animation-delay:${-k*.9}s" cx="${f(X + (k%2 ? 1.5 : -1))}" cy="${f(Y)}" r="${f(2.6)}" fill="${col}" stroke="${INK}" stroke-width=".5"/>`;
+  return s; }
 
 /* =====================================================================
    Gilgit-Baltistan
@@ -265,7 +338,7 @@ function baltit(){
   s += hullInk(boxPts(96,22,TB,120,50,TB+29.6), 2.4);
   s += bxInk(100,36,TB+29.6,110,47,TB+38,PLASTER,1.8) + bxInk(99,35,TB+38,111,48,TB+39.6,TIMBER,1.4);
   s += shape(on(PX(110.1), rectUV(40, TB+32, 43, TB+35.5)), WINDOW, .7) + shape(on(PY(47.1), rectUV(103, TB+32, 106, TB+35.5)), WINDOW, .7);
-  return { at:[108,36,TB], svg:s, sh:[...boxPts(96,22,TB,120,50,TB+29.6), ...boxPts(100,36,TB,110,47,TB+39.6)] };
+  return { at:[108,36,TB], svg:s, sh:[...boxPts(96,22,TB,120,50,TB+29.6), ...boxPts(100,36,TB,110,47,TB+39.6)], over: pkFlag([105,41,TB+39.6], 9) };
 }
 function shangrila(){
   const HUT = { l:'#f2dfbb', m:'#d2b98e', d:'#927852' }, ROOF = matOf('#c8323c'), BOAT = matOf('#9a6a3e');
@@ -275,7 +348,7 @@ function shangrila(){
   s += roof4(47,109,63,125,TB+9,5,ROOF) + roof4(51,113,59,121,TB+12.6,5.4,ROOF);
   // a rowing boat on the lake
   const top = on(PZ(TB+2.4), ellUV(26, 96, 7.5, 2.6, 20)), bot = on(PZ(TB+.2), ellUV(26, 96, 5.4, 1.5, 20));
-  s = loft(bot, top, n => toneI(n, BOAT)) + fill(pd(top), '#5b3a22') + ink(pd(top), .8) + hullInk([...top, ...bot], 1.2) + s;
+  s = `<g class="bob">${loft(bot, top, n => toneI(n, BOAT)) + fill(pd(top), '#5b3a22') + ink(pd(top), .8) + hullInk([...top, ...bot], 1.2)}</g>` + s;
   return { at:[52,114,TB], svg:s, sh:[...boxPts(47,109,TB,63,125,TB+9), [55,117,TB+18]] };
 }
 const shangrilaWater = () => ground(ellUV(30, 100, 25, 18, 40), WATER) + ground(ellUV(30, 100, 21, 14.5, 40), '#7cc0e8')
@@ -292,7 +365,11 @@ function apricot(){
     const [X,Y] = P(x,y,z);
     for (let k = 0; k < 5; k++){ const a = k*1.9 + x, d = r*.75; s += `<circle cx="${f(X + Math.cos(a)*d)}" cy="${f(Y + Math.sin(a)*d*.8)}" r="${f(r*.12)}" fill="#ffffff"/>`; }
   }
-  return { at:[cx,cy,TB], svg:s, sh:[...ringZ(cx,cy,TB+25,11,12), [cx,cy,TB]] };
+  // petals drifting down from the canopy
+  let over = '';
+  for (let k = 0; k < 7; k++){ const [X,Y] = P(cx - 6 + (k*5) % 13, cy - 4 + (k*7) % 11, TB + 22 + (k%3)*3);
+    over += `<ellipse class="petal" style="animation-delay:${(-k*.72).toFixed(2)}s" cx="${f(X)}" cy="${f(Y)}" rx="1.1" ry=".7" fill="${k%2 ? '#f7b6c8' : '#ffffff'}" stroke="${INK}" stroke-width=".3"/>`; }
+  return { at:[cx,cy,TB], svg:s, sh:[...ringZ(cx,cy,TB+25,11,12), [cx,cy,TB]], over };
 }
 
 /* =====================================================================
@@ -311,7 +388,7 @@ function pine(cx, cy, h){
 function swat(){
   let s = peak(20, 22, [16,13,17,12,14], 40, [0,0], .5);
   const trees = [[36,30,34],[50,22,27],[26,44,29],[46,42,38],[58,34,25],[36,56,24],[56,50,22]].sort((a,b) => (a[0]+a[1]) - (b[0]+b[1]));
-  for (const [x,y,h] of trees) s += pine(x, y, h);
+  trees.forEach(([x,y,h], k) => { s += `<g class="sway" style="animation-delay:${(-k*.6).toFixed(1)}s">${pine(x, y, h)}</g>`; });
   return { at:[40,40,TB], svg:s, sh:trees.flatMap(([x,y,h]) => [...ringZ(x,y,TB,h*.34,8), [x,y,TB+h]]).concat([[6,10,TB],[34,8,TB],[20,22,TB+40]]) };
 }
 function khyber(){
@@ -409,10 +486,10 @@ function basant(){
   const top = at(0, 9.5), rt = at(7, 0), bot = at(0, -7.5), lf = at(-7, 0);
   const hand = [41, 106, TB+14.2], str = Array.from({length:13}, (_,i) => { const t = i/12, p = lerp3(hand, bot, t); return [p[0], p[1], p[2] - 7*Math.sin(Math.PI*t)]; });
   s += `<path d="${pd(str, false)}" fill="none" stroke="${INK}" stroke-width=".7"/>`;
-  s += shape([top, rt, K], GOLD, .7) + shape([rt, bot, K], PINK, .7) + shape([bot, lf, K], GOLD, .7) + shape([lf, top, K], PINK, .7);
-  s += shape([bot, at(-2.2, -11), at(2.2, -11)], GOLD, .7);
-  s += line([top, bot], .8) + `<path d="${pd(Array.from({length:9}, (_,i) => at(-7 + i*1.75, 2.2*Math.sin(Math.PI*i/8))), false)}" fill="none" stroke="${INK}" stroke-width=".8"/>`;
-  s += hullInk([top, rt, bot, lf], 1.6);
+  let kite = shape([top, rt, K], GOLD, .7) + shape([rt, bot, K], PINK, .7) + shape([bot, lf, K], GOLD, .7) + shape([lf, top, K], PINK, .7);
+  kite += shape([bot, at(-2.2, -11), at(2.2, -11)], GOLD, .7);
+  kite += line([top, bot], .8) + `<path d="${pd(Array.from({length:9}, (_,i) => at(-7 + i*1.75, 2.2*Math.sin(Math.PI*i/8))), false)}" fill="none" stroke="${INK}" stroke-width=".8"/>`;
+  s += `<g class="kite">${kite + hullInk([top, rt, bot, lf], 1.6)}</g>`;
   return { at:[36,104,TB], svg:s, sh:[...boxPts(26,94,TB,46,114,TB+14)] };
 }
 function wheat(){
@@ -481,7 +558,7 @@ function topi(){
     if (fc < .35) continue; if (z < z0 + 6 && Math.abs(t - tc) < dt + .15) continue;
     const c = [cx + (r+.08)*Math.cos(t), cy + (r+.08)*Math.sin(t), z], tg = [-Math.sin(t), Math.cos(t), 0];
     mir += pd(Array.from({length:8}, (_,i) => { const a = i/8*2*Math.PI; return [c[0] + tg[0]*.75*Math.cos(a), c[1] + tg[1]*.75*Math.cos(a), c[2] + .75*Math.sin(a)]; })); }
-  s += `<path d="${mir}" fill="#eef4f7" stroke="${INK}" stroke-width=".4"/>`;
+  s += `<path class="glint" d="${mir}" fill="#eef4f7" stroke="${INK}" stroke-width=".4"/>`;
   return { at:[cx,cy,TB], svg:s, sh:[...ringZ(cx,cy,TB,r,12), ...ringZ(cx,cy,z1,r,12)] };
 }
 function bhulan(){
@@ -493,13 +570,15 @@ function bhulan(){
     const w = t < .84 ? 3.8*Math.pow(Math.sin(Math.PI*Math.max(t, .04)), .55) : 1 - (t - .84)*3.6;
     top.push(at(sA + n2[0]*w, h + n2[1]*w)); bot.push(at(sA - n2[0]*w*.8, h - n2[1]*w*.8)); }
   let s = '';
-  for (const t of [0, 1]){ const c = at((t - .5)*len, 0); s += outline(pd(on(PZ(TB+.2), ellUV(c[0], c[1], 3.6, 3.6, 18))), '#ffffff', 1.1) + outline(pd(on(PZ(TB+.2), ellUV(c[0], c[1], 6, 6, 22))), '#ffffff', .7); }
+  [0, 1].forEach(t => { const c = at((t - .5)*len, 0);
+    s += `<g class="ripple" style="animation-delay:${t ? -1.6 : 0}s">` + outline(pd(on(PZ(TB+.2), ellUV(c[0], c[1], 3.6, 3.6, 18))), '#ffffff', 1.1) + outline(pd(on(PZ(TB+.2), ellUV(c[0], c[1], 6, 6, 22))), '#ffffff', .7) + '</g>'; });
   const tail = at(-len/2, 0);
-  s += shape([at(-len/2 + 1.5, 1.4), at(-len/2 - 2.8, 4.6), at(-len/2 - .4, 1.8), at(-len/2 - 3.2, -.6)], DOL.m, .8);
-  s += shape([...top, ...bot.reverse()], DOL.m, 1.2);
-  s += `<path d="${pd(top.slice(3, 19), false)}" fill="none" stroke="${DOL.l}" stroke-width="1.6" stroke-linecap="round"/>`;
+  let body = shape([at(-len/2 + 1.5, 1.4), at(-len/2 - 2.8, 4.6), at(-len/2 - .4, 1.8), at(-len/2 - 3.2, -.6)], DOL.m, .8);
+  body += shape([...top, ...bot.reverse()], DOL.m, 1.2);
+  body += `<path d="${pd(top.slice(3, 19), false)}" fill="none" stroke="${DOL.l}" stroke-width="1.6" stroke-linecap="round"/>`;
   const eye = at((.78 - .5)*len, hgt*Math.sin(Math.PI*.78) + .6), [ex, ey] = P(...eye);
-  s += `<circle cx="${f(ex)}" cy="${f(ey)}" r=".45" fill="${INK}"/>`;
+  body += `<circle cx="${f(ex)}" cy="${f(ey)}" r=".45" fill="${INK}"/>`;
+  s += `<g class="leap">${body}</g>`;
   return { at:[104,100,TB+2], svg:s, sh:null, tail };
 }
 
@@ -512,7 +591,8 @@ const MEAT = { l:'#d3843f', m:'#a35828', d:'#62321a' }, PALM = { l:'#7cc06a', m:
 const SEA = [[76,0],[140,0],[140,74],[122,68],[102,58],[88,40],[80,18]];
 const seaDecor = () => { let s = ground(SEA, '#3f90c6') + outline(pd(on(PZ(TB+.12), SEA.slice(3).concat([[76,0]]).reverse()), false), '#f6e3bd', 1.8);
   let w = ''; for (const [x,y] of [[96,10],[128,22],[132,52],[96,30],[116,6]]) w += pd(on(PZ(TB+.12), arcUV(x, y, 3, 200, 340, 6)), false);
-  return s + `<path d="${w}" fill="none" stroke="#c4e6f7" stroke-width=".9" stroke-linecap="round"/>`; };
+  return s + `<path class="lap" d="${w}" fill="none" stroke="#c4e6f7" stroke-width=".9" stroke-linecap="round"/>`
+    + `<path class="flow" d="${pd(on(PZ(TB+.14), SEA.slice(3).concat([[76,0]]).reverse()), false)}" fill="none" stroke="#ffffff" stroke-width="1" stroke-dasharray="3 6" stroke-linecap="round"/>`; };
 function princess(){
   let s = peak(16, 26, [15,12,17,11,14], 30, [0,0], 0, DESERT_ROCK, .7, 1.8);
   s += lathe(40, 42, [[17,TB],[14,TB+6],[9.5,TB+12],[6.5,TB+16],[4.8,TB+24],[4,TB+33],[4.9,TB+39],[3.6,TB+44.5],[4,TB+46.8],[3.4,TB+50],[1.8,TB+52],[.02,TB+52.6]], DESERT_ROCK, tone, 2, 10);
@@ -562,9 +642,10 @@ function datePalm(){
     return { d: topP[0] + dir[0]*16 + topP[1] + dir[1]*16, svg: shape([...pts, ...back.reverse()], col, .8) + line(mid, .6) }; };
   const fr = Array.from({length:9}, (_,k) => frond(k*40*Math.PI/180 + .2)).sort((p,q) => p.d - q.d);
   const cen = topP[0] + topP[1];
-  s += fr.filter(p => p.d < cen).map(p => p.svg).join('');
-  for (const [dx,dy] of [[2.5,1.5],[-1,3]]) for (let k = 0; k < 5; k++) s += ball([topP[0]+dx + (k%2)*1.1, topP[1]+dy, topP[2] - 2.5 - k*.9], 1, matOf('#d9822b'), .6);
-  s += fr.filter(p => p.d >= cen).map(p => p.svg).join('');
+  let crown = fr.filter(p => p.d < cen).map(p => p.svg).join('');
+  for (const [dx,dy] of [[2.5,1.5],[-1,3]]) for (let k = 0; k < 5; k++) crown += ball([topP[0]+dx + (k%2)*1.1, topP[1]+dy, topP[2] - 2.5 - k*.9], 1, matOf('#d9822b'), .6);
+  crown += fr.filter(p => p.d >= cen).map(p => p.svg).join('');
+  s += `<g class="palm">${crown}</g>`;
   return { at:[106,106,TB], svg:s, sh:[base, topP, ...ringZ(103,103,TB+26,14,10)] };
 }
 
@@ -572,78 +653,74 @@ function datePalm(){
    Content
    ===================================================================== */
 const REGIONS = [
-  { id:'gilgit-baltistan', name:'Gilgit-Baltistan', color:'--gb', where:'The far north', kind:'Administrative territory', H:88,
-    tagline:'Where the Karakoram, the Himalaya and the Hindu Kush meet.',
-    intro:'Pakistan’s far north holds five of the world’s fourteen peaks above 8,000 metres, glaciers that stretch for more than 60 km, and the Karakoram Highway climbing to the Khunjerab Pass at 4,693 m.',
-    facts:[['Capital','Gilgit'],['Highest point','K2, 8,611 m'],['Gateway town','Skardu']],
+  { id:'gilgit-baltistan', cls:'gb', name:'Gilgit-Baltistan', pin:'#2f7fc0', where:'The far north', H:88,
+    stat:['5', 'peaks over 8,000 m'], line:'Glaciers, apricot orchards and the Karakoram Highway.', capital:'Gilgit',
     ground:GB_GROUND, decor:shangrilaWater,
+    fx:() => cloud([16,34,TB+56], 1.3, 0) + cloud([64,8,TB+70], 1, -4) + cloud([14,96,TB+40], .9, -7)
+      + sparkle([44,40,TB+76], 2.6, 0) + sparkle([38,48,TB+68], 2, -.9) + sparkle([49,35,TB+66], 1.8, -1.7) + sparkle([27,70,TB+42], 1.8, -.5),
     items:[
-      { key:'k2', label:'K2', draw:k2, tagAt:[42,42,TB+82], dx:40, dy:-8, kicker:'Karakoram · 8,611 m',
-        body:'The second-highest mountain on Earth stands on the border with China, at the head of the Baltoro Glacier. Climbers call it the Savage Mountain. An Italian expedition made the first ascent in 1954.' },
-      { key:'baltit', label:'BALTIT FORT', title:'Baltit Fort', draw:baltit, tagAt:[105,42,TB+39.6], dx:30, dy:-22, kicker:'Karimabad, Hunza',
-        body:'A stone-and-timber fort above the Hunza valley and for centuries the seat of the Mirs of Hunza. Parts of it are said to be about 700 years old. The Aga Khan Trust for Culture restored it, and it opened as a museum in 1996.' },
-      { key:'shangrila', label:'SHANGRILA LAKE', title:'Shangrila Lake', draw:shangrila, tagAt:[55,117,TB+18], dx:-30, dy:-24, kicker:'Lower Kachura, near Skardu',
-        body:'A calm, deep-blue lake about 25 km from Skardu. The red pagoda roofs of the resort on its shore make it one of the most photographed places in the north.' },
-      { key:'apricot', label:'APRICOT BLOSSOM', title:'Apricot blossom', draw:apricot, tagAt:[104,104,TB+36], dx:40, dy:6, kicker:'Hunza · late March to April',
-        body:'Each spring the orchards of Hunza turn pink and white. In summer the apricots are dried on flat rooftops, and dried apricots and apricot-kernel oil are staples of the valley.' } ] },
-  { id:'khyber-pakhtunkhwa', name:'Khyber Pakhtunkhwa', color:'--kp', where:'The north-west', kind:'Province', H:48,
-    tagline:'Mountain passes, old bazaars and green valleys.',
-    intro:'From the Hindu Kush in Chitral to the plains around Peshawar, Khyber Pakhtunkhwa links Pakistan with Central Asia. Peshawar is often counted among the oldest living cities in South Asia.',
-    facts:[['Capital','Peshawar'],['Highest point','Tirich Mir, 7,708 m'],['Main language','Pashto']],
-    ground:KP_GROUND,
-    decor:() => ground(ribbon(ROAD_KP, 8), '#dcc79c') + ground(ribbon(RIVER_KP, 8), WATER) + outline(pd(on(PZ(TB+.12), RIVER_KP), false), '#a9dcf4', 1.2),
+      { key:'k2', label:'K2', draw:k2, tagAt:[42,42,TB+82], dx:40, dy:-8, kicker:'Karakoram', stat:['8,611 m', 'second-highest on Earth'],
+        line:'The Savage Mountain on the China border, first climbed in 1954.' },
+      { key:'baltit', label:'BALTIT FORT', title:'Baltit Fort', draw:baltit, tagAt:[105,42,TB+39.6], dx:30, dy:-24, kicker:'Karimabad, Hunza', stat:['~700', 'years above Hunza'],
+        line:'Seat of the Mirs of Hunza, now a museum above the valley.' },
+      { key:'shangrila', label:'SHANGRILA LAKE', title:'Shangrila Lake', draw:shangrila, tagAt:[55,117,TB+18], dx:-30, dy:-24, kicker:'Lower Kachura, Skardu', stat:['25 km', 'from Skardu'],
+        line:'A deep-blue lake famous for its red pagoda-roofed huts.' },
+      { key:'apricot', label:'APRICOT BLOSSOM', title:'Apricot blossom', draw:apricot, tagAt:[104,104,TB+36], dx:40, dy:6, kicker:'Hunza valley', stat:['April', 'blossom season'],
+        line:'Orchards turn pink in spring; summer apricots dry on the rooftops.' } ] },
+  { id:'khyber-pakhtunkhwa', cls:'kp', name:'Khyber Pakhtunkhwa', pin:'#a0408f', where:'The north-west', H:48,
+    stat:['7,708 m', 'Tirich Mir, top of the Hindu Kush'], line:'From Chitral’s high passes to Peshawar’s old bazaars.', capital:'Peshawar',
+    ground:KP_GROUND, decor:() => ground(ribbon(ROAD_KP, 8), '#dcc79c') + ground(ribbon(RIVER_KP, 8), WATER)
+      + `<path class="flow" d="${pd(on(PZ(TB+.12), RIVER_KP), false)}" fill="none" stroke="#d6f1ff" stroke-width="1.4" stroke-dasharray="5 7" stroke-linecap="round"/>`,
+    fx:() => cloud([4,30,TB+26], .9, -2) + cloud([70,2,TB+24], .8, -6) + steamAt([49,103,TB+16], 3) + pkFlag([107,52,TB+33], 9),
     items:[
-      { key:'swat', label:'SWAT VALLEY', title:'Swat Valley', draw:swat, tagAt:[46,42,TB+38], dx:44, dy:-12, kicker:'Malakand Division',
-        body:'Green, river-cut and ringed by snow peaks, Swat is often called the Switzerland of Pakistan. Pine forests climb toward Malam Jabba, home to one of the country’s few ski resorts.' },
-      { key:'khyber', label:'BAB-E-KHYBER', title:'Bab-e-Khyber', draw:khyber, tagAt:[107,24,TB+33], dx:28, dy:-20, kicker:'Jamrud · built 1963',
-        body:'This gate marks the start of the Khyber Pass, the mountain road toward Afghanistan. Traders, armies and travellers have used the pass for thousands of years.' },
-      { key:'kahwa', label:'KAHWA', title:'Peshawari kahwa', draw:kahwa, tagAt:[36,103,TB+20], dx:-36, dy:-16, kicker:'Qissa Khwani Bazaar, Peshawar',
-        body:'Green tea brewed with cardamom, sometimes with saffron or crushed almonds, and poured from a copper or brass kettle into small cups. It is the drink of hospitality in Peshawar’s old Storytellers’ Bazaar.' },
-      { key:'pakol', label:'CHITRALI PAKOL', title:'Chitrali pakol', draw:pakol, tagAt:[104,104,TB+13], dx:40, dy:10, kicker:'Chitral',
-        body:'A soft round wool cap with a rolled brim that can be pulled down over the ears in winter. Honoured guests are often given one, sometimes with a feather tucked into the band.' } ] },
-  { id:'punjab', name:'Punjab', color:'--pb', where:'The heartland', kind:'Province', H:72,
-    tagline:'The land of five rivers.',
-    intro:'The name means five waters, after the Jhelum, Chenab, Ravi, Sutlej and Beas. Punjab is Pakistan’s most populous province: farm country, Mughal Lahore and food that people travel for.',
-    facts:[['Capital','Lahore'],['Rivers','Jhelum, Chenab, Ravi, Sutlej, Beas'],['Main language','Punjabi']],
+      { key:'swat', label:'SWAT VALLEY', title:'Swat Valley', draw:swat, tagAt:[46,42,TB+38], dx:44, dy:-12, kicker:'Malakand', stat:['Pines', '& snow peaks'],
+        line:'River valleys and forest, with skiing at Malam Jabba.' },
+      { key:'khyber', label:'BAB-E-KHYBER', title:'Bab-e-Khyber', draw:khyber, tagAt:[107,24,TB+33], dx:28, dy:-22, kicker:'Jamrud', stat:['1963', 'year the gate was built'],
+        line:'The gate to the Khyber Pass, the ancient road to Afghanistan.' },
+      { key:'kahwa', label:'KAHWA', title:'Peshawari kahwa', draw:kahwa, tagAt:[36,103,TB+20], dx:-36, dy:-16, kicker:'Qissa Khwani Bazaar', stat:['Green tea', 'with cardamom'],
+        line:'Peshawar’s drink of welcome, poured into small cups.' },
+      { key:'pakol', label:'CHITRALI PAKOL', title:'Chitrali pakol', draw:pakol, tagAt:[104,104,TB+13], dx:40, dy:10, kicker:'Chitral', stat:['Wool', 'rolled brim'],
+        line:'A soft round cap, often given to honoured guests.' } ] },
+  { id:'punjab', cls:'pb', name:'Punjab', pin:'#e0a000', where:'The heartland', H:72,
+    stat:['5', 'rivers give it its name'], line:'Farm country, Mughal Lahore and food worth the trip.', capital:'Lahore',
     ground:PB_GROUND, decor:wheatField,
+    fx:() => bird([36,40,TB+50], 24, 7, 9, 0) + bird([36,40,TB+54], 20, 6, 7.5, -3) + bird([108,36,TB+74], 10, 3, 6, -1) + cloud([96,6,TB+60], .9, -3),
     items:[
-      { key:'badshahi', label:'BADSHAHI MOSQUE', title:'Badshahi Mosque', draw:badshahi, tagAt:[34,41,TB+40], dx:-34, dy:-26, kicker:'Lahore · 1671 to 1673',
-        body:'Built by the Mughal emperor Aurangzeb in red sandstone with white marble domes. Its courtyard is one of the largest of any mosque in the world, and it faces the Lahore Fort across the Hazuri Bagh.' },
-      { key:'minar', label:'MINAR-E-PAKISTAN', title:'Minar-e-Pakistan', draw:minar, tagAt:[108,36,TB+66], dx:36, dy:-6, kicker:'Iqbal Park, Lahore · about 70 m',
-        body:'The tower stands where the Lahore Resolution was passed on 23 March 1940, the step that led to the creation of Pakistan. Its base opens like a flower, and it was completed in 1968.' },
-      { key:'basant', label:'BASANT KITE', title:'Basant', draw:basant, tagAt:[40,126,TB+65], dx:-34, dy:-8, kicker:'Lahore · spring kite festival',
-        body:'Basant welcomed spring with rooftops full of kites, music and food. Yellow is the colour of the day, after the mustard fields in bloom. Kite flying has been restricted in recent years because of dangerous coated strings.' },
-      { key:'wheat', label:'WHEAT HARVEST', title:'Wheat harvest', draw:wheat, tagAt:[112,98,TB+18], dx:40, dy:4, kicker:'Central Punjab · April to May',
-        body:'Punjab grows most of Pakistan’s wheat, on land watered by its rivers and one of the largest canal systems in the world. Baisakhi marks the harvest each April.' } ] },
-  { id:'sindh', name:'Sindh', color:'--sd', where:'The south-east', kind:'Province', H:60,
-    tagline:'Along the Indus to the Arabian Sea.',
-    intro:'Sindh takes its name from the Indus, called Sindhu in Sanskrit. It is home to Karachi, Pakistan’s largest city and main port, and to some of the oldest cities in the world.',
-    facts:[['Capital','Karachi'],['River','Indus'],['Main language','Sindhi']],
-    ground:SD_GROUND,
-    decor:() => ground(ribbon(RIVER_SD, 14), WATER) + outline(pd(on(PZ(TB+.12), RIVER_SD), false), '#a9dcf4', 1.3),
+      { key:'badshahi', label:'BADSHAHI MOSQUE', title:'Badshahi Mosque', draw:badshahi, tagAt:[34,41,TB+40], dx:-34, dy:-26, kicker:'Lahore', stat:['1673', 'built by Aurangzeb'],
+        line:'Red sandstone and white marble domes, facing the Lahore Fort.' },
+      { key:'minar', label:'MINAR-E-PAKISTAN', title:'Minar-e-Pakistan', draw:minar, tagAt:[108,36,TB+66], dx:36, dy:-6, kicker:'Iqbal Park, Lahore', stat:['70 m', 'tall, finished 1968'],
+        line:'Where the Lahore Resolution was passed on 23 March 1940.' },
+      { key:'basant', label:'BASANT KITE', title:'Basant', draw:basant, tagAt:[40,126,TB+65], dx:-34, dy:-8, kicker:'Spring kite festival', stat:['Yellow', 'the colour of spring'],
+        line:'Rooftops full of kites, music and food to welcome spring.' },
+      { key:'wheat', label:'WHEAT HARVEST', title:'Wheat harvest', draw:wheat, tagAt:[112,98,TB+18], dx:40, dy:4, kicker:'Central Punjab', stat:['Breadbasket', 'of Pakistan'],
+        line:'Most of the country’s wheat grows on Punjab’s canal-fed plains.' } ] },
+  { id:'sindh', cls:'sd', name:'Sindh', pin:'#c42a3f', where:'The south-east', H:60,
+    stat:['4,500', 'years of city life'], line:'Karachi, the Indus and some of the oldest cities on Earth.', capital:'Karachi',
+    ground:SD_GROUND, decor:() => ground(ribbon(RIVER_SD, 14), WATER)
+      + `<path class="flow" d="${pd(on(PZ(TB+.12), RIVER_SD), false)}" fill="none" stroke="#d6f1ff" stroke-width="1.5" stroke-dasharray="6 8" stroke-linecap="round"/>`,
+    fx:() => bird([108,36,TB+46], 12, 4, 7, -2) + bird([108,36,TB+50], 9, 3, 5.5, 0) + sparkle([40,40,TB+38], 1.8, -1),
     items:[
-      { key:'mohenjo', label:'MOHENJO-DARO', title:'Mohenjo-daro', draw:mohenjo, tagAt:[40,40,TB+35], dx:-36, dy:-20, kicker:'Larkana District · about 2500 BCE',
-        body:'One of the largest cities of the Indus Valley Civilisation, with brick houses, covered drains and the Great Bath. The Buddhist stupa on its highest mound was added much later. It has been a UNESCO World Heritage Site since 1980.' },
-      { key:'mazar', label:'MAZAR-E-QUAID', title:'Mazar-e-Quaid', draw:mazar, tagAt:[108,36,TB+39], dx:34, dy:-16, kicker:'Karachi · completed 1971',
-        body:'The white marble tomb of Muhammad Ali Jinnah, the founder of Pakistan. Its arches hold copper grilles, and a crystal chandelier given by China hangs inside.' },
-      { key:'topi', label:'SINDHI TOPI', title:'Sindhi topi and ajrak', draw:topi, tagAt:[39,105,TB+9], dx:-38, dy:-18, kicker:'Worn across Sindh',
-        body:'The cap is embroidered and set with tiny mirrors, with an arch cut away at the front. The ajrak is a block-printed shawl in deep red and indigo. Both are worn with pride on Sindhi Culture Day each December.' },
-      { key:'bhulan', label:'INDUS DOLPHIN', title:'Indus river dolphin', draw:bhulan, tagAt:[104,100,TB+15], dx:38, dy:-10, kicker:'Indus River · locally called bhulan',
-        body:'A nearly blind dolphin found only in the Indus river system. It finds its way through the muddy water by echolocation. The stretch between the Guddu and Sukkur barrages is protected as a reserve.' } ] },
-  { id:'balochistan', name:'Balochistan', color:'--bl', where:'The south-west', kind:'Province', H:60,
-    tagline:'Desert, mountains and a long Arabian Sea coast.',
-    intro:'The largest province, with about 44 percent of Pakistan’s land but the fewest people. Its coast runs for about 770 km, and Quetta, the capital, is known for its orchards.',
-    facts:[['Capital','Quetta'],['Coastline','About 770 km'],['Main language','Balochi']],
+      { key:'mohenjo', label:'MOHENJO-DARO', title:'Mohenjo-daro', draw:mohenjo, tagAt:[40,40,TB+35], dx:-36, dy:-20, kicker:'Larkana', stat:['2500 BCE', 'Indus Valley city'],
+        line:'Brick streets, covered drains and the Great Bath.' },
+      { key:'mazar', label:'MAZAR-E-QUAID', title:'Mazar-e-Quaid', draw:mazar, tagAt:[108,36,TB+39], dx:34, dy:-16, kicker:'Karachi', stat:['1971', 'completed'],
+        line:'The white marble tomb of Quaid-e-Azam Muhammad Ali Jinnah.' },
+      { key:'topi', label:'SINDHI TOPI', title:'Sindhi topi and ajrak', draw:topi, tagAt:[39,105,TB+9], dx:-38, dy:-18, kicker:'Worn across Sindh', stat:['Mirrorwork', '+ ajrak prints'],
+        line:'An embroidered cap worn with the red and indigo ajrak shawl.' },
+      { key:'bhulan', label:'INDUS DOLPHIN', title:'Indus river dolphin', draw:bhulan, tagAt:[104,100,TB+15], dx:38, dy:-10, kicker:'Locally called bhulan', stat:['Indus only', 'nearly blind'],
+        line:'Found only in the Indus, it finds its way by echolocation.' } ] },
+  { id:'balochistan', cls:'bl', name:'Balochistan', pin:'#e0703a', where:'The south-west', H:60,
+    stat:['44%', 'of Pakistan’s land'], line:'Desert, mountains and 770 km of Arabian Sea coast.', capital:'Quetta',
     ground:BL_GROUND, decor:seaDecor,
+    fx:() => smokeAt([36,104,TB+28], 4) + bird([112,30,TB+30], 14, 4, 8, -1) + bird([112,30,TB+34], 10, 3, 6, -4),
     items:[
-      { key:'princess', label:'PRINCESS OF HOPE', title:'Princess of Hope', draw:princess, tagAt:[40,42,TB+52], dx:-36, dy:-14, kicker:'Hingol National Park',
-        body:'A tall rock carved by wind and rain that looks like a woman in a long robe looking out over the desert. Angelina Jolie gave it its name when she visited in 2002. It stands near the Makran Coastal Highway.' },
-      { key:'gwadar', label:'GWADAR', title:'Gwadar Hammerhead', draw:gwadar, tagAt:[118,30,TB+16], dx:34, dy:-18, kicker:'Gwadar · Arabian Sea',
-        body:'Gwadar sits on a narrow sandy neck that joins the mainland to a hammer-shaped headland called Koh-e-Batil. The deep-sea port lies in the bay beside it.' },
-      { key:'sajji', label:'SAJJI', title:'Sajji', draw:sajji, tagAt:[36,104,TB+24], dx:-36, dy:-14, kicker:'Balochi roast',
-        body:'Whole lamb or chicken on skewers, rubbed with little more than salt and slow-roasted around an open fire. It is Balochistan’s best-known dish and is now cooked across the country.' },
-      { key:'dates', label:'DATE PALMS', title:'Date palms', draw:datePalm, tagAt:[103,103,TB+33], dx:40, dy:0, kicker:'Panjgur and Turbat',
-        body:'The oases of Makran grow many kinds of dates, including the prized Begum Jangi of Panjgur. The harvest comes in the heat of summer.' } ] },
+      { key:'princess', label:'PRINCESS OF HOPE', title:'Princess of Hope', draw:princess, tagAt:[40,42,TB+52], dx:-36, dy:-14, kicker:'Hingol National Park', stat:['2002', 'named by Angelina Jolie'],
+        line:'A wind-carved rock gazing over the Makran desert.' },
+      { key:'gwadar', label:'GWADAR', title:'Gwadar Hammerhead', draw:gwadar, tagAt:[118,30,TB+16], dx:34, dy:-18, kicker:'Arabian Sea', stat:['Koh-e-Batil', 'the hammerhead'],
+        line:'A hammer-shaped headland tied to the coast by a sandy neck.' },
+      { key:'sajji', label:'SAJJI', title:'Sajji', draw:sajji, tagAt:[36,104,TB+24], dx:-36, dy:-14, kicker:'Balochi roast', stat:['Salt & fire', 'that is the recipe'],
+        line:'Whole lamb or chicken, slow-roasted on skewers around the fire.' },
+      { key:'dates', label:'DATE PALMS', title:'Date palms', draw:datePalm, tagAt:[103,103,TB+33], dx:40, dy:0, kicker:'Panjgur and Turbat', stat:['Begum Jangi', 'the prized date'],
+        line:'Makran’s oases grow some of Pakistan’s finest dates.' } ] },
 ];
 
 /* =====================================================================
@@ -656,50 +733,56 @@ function drawRegion(R){
   if (R.decor) s += clipTo(topPts, R.decor());
   const parts = R.items.map(it => ({ it, d: it.draw() }));
   s += parts.map(p => p.d.sh ? castShadow(p.d.sh, TB, topPts) : '').join('');
-  s += byDepth(parts.map(p => ({ at: p.d.at, svg: act(p.it.key, p.d.svg, 'class="asset"') })));
-  s += R.items.map(it => act(it.key, tag(it.tagAt, it.dx, it.dy, it.label, R.sel === it.key))).join('');
-  return s;
+  s += byDepth(parts.map((p, i) => ({ at: p.d.at, svg: act(p.it.key, p.d.svg, `class="asset${R.sel === p.it.key ? ' sel' : ''}" style="--d:${i*140}ms"`) })));
+  let over = (R.fx ? R.fx() : '') + parts.map(p => p.d.over || '').join('');
+  over += R.items.map(it => act(it.key, tag(it.tagAt, it.dx, it.dy, it.label, R.sel === it.key))).join('');
+  return { art: s, over };
 }
 function renderRegion(R){ frameAndDraw(R.svg, R.id, [BW, BW, Math.max(R.H, 60)], () => drawRegion(R)); }
 
 function fillCard(R){
-  const it = R.items.find(i => i.key === R.sel), c = R.card;
-  c.kicker.textContent = it ? it.kicker : `${R.kind} · ${R.where}`;
+  const it = R.items.find(i => i.key === R.sel), c = R.card, st = it ? it.stat : R.stat;
+  c.kicker.textContent = it ? it.kicker : `Capital · ${R.capital}`;
   c.title.textContent = it ? titleOf(it) : R.name;
-  c.body.textContent = it ? it.body : R.intro;
-  c.facts.hidden = !!it; c.back.hidden = !it;
+  c.statB.textContent = st[0]; c.statS.textContent = st[1];
+  c.line.textContent = it ? it.line : R.line;
   c.chips.forEach(b => b.setAttribute('aria-pressed', String(b.dataset.key === R.sel)));
+  c.in.classList.remove('swap'); void c.in.offsetWidth; c.in.classList.add('swap');
 }
 function select(R, key){ R.sel = key; renderRegion(R); fillCard(R); }
 
 const stopsEl = document.getElementById('stops'), routeEl = document.getElementById('route');
+const seen = new IntersectionObserver(es => es.forEach(e => {
+  e.target.classList.toggle('live', e.isIntersecting);
+  if (e.isIntersecting && !e.target.classList.contains('play')){ e.target.classList.add('play'); setTimeout(() => e.target.classList.add('played'), 1700); }
+}), { threshold: .2 });
 REGIONS.forEach((R, i) => {
   const n = i + 1;
-  routeEl.insertAdjacentHTML('beforeend', `<li><a href="#${R.id}" style="--c:var(${R.color})"><span class="pin">${n}</span><span class="rtext"><span class="rname">${R.name}</span><span class="rsub">${R.facts[0][1]} · ${R.where.toLowerCase()}</span></span></a></li>`);
+  routeEl.insertAdjacentHTML('beforeend', `<li><a href="#${R.id}" style="--c:${R.pin}"><span class="pin">${n}</span><span class="rname">${R.name}</span></a></li>`);
   const sec = document.createElement('section');
-  sec.className = 'stop'; sec.id = R.id; sec.style.setProperty('--ra', `var(${R.color})`);
+  sec.className = `stop ${R.cls}`; sec.id = R.id;
   sec.innerHTML = `<div class="scallop" aria-hidden="true"></div>
+    ${R.cls === 'bl' ? '<div class="sun" aria-hidden="true"></div>' : ''}
+    ${R.cls === 'pb' ? '<span class="kite-bg" aria-hidden="true" style="left:4%;bottom:70px"></span><span class="kite-bg" aria-hidden="true" style="right:8%;top:70px;animation-delay:-2s;background:linear-gradient(135deg,#1f8a4c 0 50%,#fbf1d6 50%)"></span>' : ''}
     <div class="wrap">
-      <div class="stop-head"><p class="eyebrow">Stop ${n} of 5 · ${R.where}</p><h2>${R.name}</h2><p class="tagline">${R.tagline}</p></div>
+      <div class="stop-head"><p class="eyebrow">Stop ${n} · ${R.where}</p><span class="stop-num" aria-hidden="true">0${n}</span><h2>${R.name}</h2></div>
       <div class="stop-grid">
-        <svg class="scene" role="img" aria-label="Illustration of ${R.name}: ${R.items.map(titleOf).join(', ')}" style="--accent:var(${R.color})"></svg>
+        <svg class="scene" role="img" aria-label="Illustration of ${R.name}: ${R.items.map(titleOf).join(', ')}" style="--accent:${R.pin}"></svg>
         <aside class="card" aria-live="polite">
-          <p class="kicker"></p><h3></h3><p class="body"></p>
-          <dl class="facts">${R.facts.map(([k,v]) => `<dt>${k}</dt><dd>${v}</dd>`).join('')}</dl>
-          <div class="explore"><p class="eyebrow">Explore ${R.name}</p><div class="chips">${R.items.map(it => `<button type="button" class="chip" id="chip-${it.key}" data-key="${it.key}" aria-pressed="false">${titleOf(it)}</button>`).join('')}</div></div>
-          <button type="button" class="back" id="back-${R.id}" hidden>Back to ${R.name}</button>
+          <div class="in"><p class="kicker"></p><h3></h3><p class="stat"><b></b><span></span></p><p class="line"></p></div>
+          <div class="chips">${R.items.map(it => `<button type="button" class="chip" id="chip-${it.key}" data-key="${it.key}" aria-pressed="false">${titleOf(it)}</button>`).join('')}</div>
         </aside>
       </div>
     </div>`;
   stopsEl.appendChild(sec);
   R.svg = sec.querySelector('svg');
   const card = sec.querySelector('.card');
-  R.card = { kicker: card.querySelector('.kicker'), title: card.querySelector('h3'), body: card.querySelector('.body'), facts: card.querySelector('.facts'), back: card.querySelector('.back'), chips: [...card.querySelectorAll('.chip')] };
+  R.card = { in: card.querySelector('.in'), kicker: card.querySelector('.kicker'), title: card.querySelector('h3'), statB: card.querySelector('.stat b'), statS: card.querySelector('.stat span'), line: card.querySelector('.line'), chips: [...card.querySelectorAll('.chip')] };
   R.sel = null;
   R.svg.addEventListener('click', e => { const a = e.target.closest('[data-act]'); if (a) select(R, R.sel === a.dataset.act ? null : a.dataset.act); });
   R.card.chips.forEach(b => b.addEventListener('click', () => select(R, R.sel === b.dataset.key ? null : b.dataset.key)));
-  R.card.back.addEventListener('click', () => select(R, null));
   renderRegion(R); fillCard(R);
+  if (MOTION) seen.observe(R.svg); else R.svg.classList.add('live', 'play', 'played');
 });
 // screenshots and deep links: ?sel=k2 opens that landmark
 { const q = new URLSearchParams(location.search).get('sel'); if (q) REGIONS.forEach(R => { if (R.items.some(i => i.key === q)) select(R, q); }); }
@@ -855,8 +938,15 @@ drawTruck();
 if (!still){
   if ('IntersectionObserver' in window) new IntersectionObserver(es => { heroOn = es[0].isIntersecting; }).observe(heroSvg);
   setInterval(() => { if (heroOn && !document.hidden) heroStep(); }, 33);
-} else document.getElementById('truck-hint').textContent = 'Tap the truck to honk (motion is paused)';
-heroSvg.addEventListener('click', () => { tst.horn = 1.4; if (still){ tst.horn = .9; drawTruck(); } });
+}
+const honk = () => { tst.horn = 1.4; if (still){ tst.horn = .9; drawTruck(); } };
+heroSvg.addEventListener('click', honk);
+document.getElementById('honk').addEventListener('click', honk);
+// a starry sky: fixed positions so the page looks the same on every visit
+{ const sky = document.getElementById('sky'); let html = '';
+  for (let i = 0; i < 34; i++){ const x = (i*37.7) % 100, y = (i*61.3) % 88, d = ((i*0.73) % 3).toFixed(2), sz = 2 + (i % 3);
+    html += `<i style="left:${x.toFixed(1)}%;top:${y.toFixed(1)}%;width:${sz}px;height:${sz}px;animation-delay:-${d}s"></i>`; }
+  sky.insertAdjacentHTML('beforeend', html); }
 </script>
 </body>
 </html>
